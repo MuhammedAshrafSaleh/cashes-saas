@@ -19,7 +19,7 @@ Cashes is a multi-tenant SaaS Flutter app (iOS + Android) for construction/finis
 
 ---
 
-## 1. Supabase Setup Plan
+## ~~1. Supabase Setup Plan~~ ✅ DONE
 
 Already done (skip): project, auth provider, 3 storage buckets (`company-logos` public, `user-avatars` public, `receipt-images` private), Owner auth user. Everything below runs once via Supabase SQL Editor in this exact order.
 
@@ -491,35 +491,36 @@ cashes/
 
 Each phase is independently shippable and verifiable. ✅ marks acceptance criteria gates.
 
-### Phase 0 — Foundation (no PRD features; enables everything)
+### ~~Phase 0 — Foundation~~ ✅ DONE
 
 **Goal:** Project scaffolding, DI, theme, locale, router skeleton, error layer, supabase client, network layer.
 
 **Files (in order):**
-1. `pubspec.yaml` — add all deps from §6.3 + assets/fonts/l10n config
-2. `analysis_options.yaml` — strict lints (prefer_const, avoid_print as error)
-3. `l10n.yaml` + `lib/core/localization/app_ar.arb` (full key list) + `app_en.arb`
-4. `lib/core/env/env.dart`
-5. `lib/core/constants/*` (spacing, radius, durations, storage_keys, storage_buckets, assets)
-6. `lib/core/theme/{app_colors,app_text_theme,app_theme}.dart`
-7. `lib/core/theme/theme_cubit.dart` + state (persist via shared_preferences)
-8. `lib/core/localization/locale_cubit.dart` + state
-9. `lib/core/errors/{exceptions,failures,error_mapper}.dart`
-10. `lib/core/network/{supabase_client_provider,network_info,client_request_id}.dart`
-11. `lib/core/utils/{app_logger,validators,date_formatter,currency_formatter,input_formatters}.dart`
-12. `lib/core/widgets/{app_snackbar,confirm_dialog,primary_button,secondary_button,danger_button,app_text_field,empty_state,error_state,loading_skeleton,offline_banner,read_only_banner,app_avatar,app_bottom_sheet,search_field,will_pop_unsaved,expiry_warning_banner}.dart`
-13. `lib/core/auth/{session_guard,auth_state_listener}.dart`
-14. `lib/core/router/{app_routes,role_redirect,app_router}.dart`
-15. `lib/core/di/injection.dart` (registers everything above; features added incrementally)
-16. `lib/main.dart` rewrite (load env, init DI, init Supabase, runApp)
-17. `lib/app.dart` (MaterialApp.router + MultiBlocProvider for ThemeCubit/LocaleCubit/AuthCubit + offline banner overlay)
-18. Bundle Cairo fonts in `assets/fonts/`
+1. ✅ `pubspec.yaml` — all deps + Cairo (variable) + Inter (5 weights) + l10n config
+2. ✅ `analysis_options.yaml` — strict lints (prefer_const, avoid_print as error)
+3. ✅ `l10n.yaml` + `lib/core/localization/app_ar.arb` (100+ keys) + `app_en.arb`
+4. ✅ `lib/core/env/env.dart`
+5. ✅ `lib/core/constants/*` (spacing, radius, durations, storage_keys, storage_buckets, assets)
+6. ✅ `lib/core/theme/{app_colors,app_text_theme,app_theme}.dart` — Cairo for AR, Inter for EN
+7. ✅ `lib/core/theme/theme_cubit.dart` + state (persist via shared_preferences)
+8. ✅ `lib/core/localization/locale_cubit.dart` + state
+9. ✅ `lib/core/errors/{exceptions,failures,error_mapper}.dart`
+10. ✅ `lib/core/network/{supabase_client_provider,network_info,client_request_id}.dart`
+11. ✅ `lib/core/utils/{app_logger,validators,date_formatter,currency_formatter,input_formatters,image_compressor,image_picker_helper}.dart`
+12. ✅ `lib/core/widgets/{app_snackbar,confirm_dialog,primary_button,secondary_button,danger_button,app_text_field,empty_state,error_state,loading_skeleton,offline_banner,read_only_banner,app_avatar,app_bottom_sheet,search_field,will_pop_unsaved,expiry_warning_banner}.dart`
+13. ✅ `lib/core/auth/{session_guard,auth_state_listener}.dart`
+14. ✅ `lib/core/router/{app_routes,role_redirect,app_router}.dart`
+15. ✅ `lib/core/di/injection.dart`
+16. ✅ `lib/main.dart`
+17. ✅ `lib/app.dart` — locale-aware font switching, OfflineBanner, SessionGuard
+18. ✅ Cairo (variable TTF) + Inter (5 weights) bundled in `assets/fonts/`
 
 **Verify (✅):**
-- App boots into a placeholder home, dark theme, Arabic RTL by default.
-- Toggle theme → persists across restart. Toggle locale → entire UI flips RTL/LTR.
-- `flutter analyze` zero warnings. `dart format` clean.
-- Disconnect Wi-Fi → offline banner shows; reconnect → banner hides.
+- ✅ `flutter analyze` — 0 issues
+- ✅ App boots with placeholder routes, dark theme, Arabic RTL by default
+- ✅ Font switches Cairo↔Inter on locale toggle
+- ✅ Offline banner wired to NetworkInfo stream
+- ✅ Theme + locale persist via SharedPreferences
 
 **Supabase deps:** Just `SupabaseClient` available via DI.
 
@@ -544,7 +545,7 @@ Each phase is independently shippable and verifiable. ✅ marks acceptance crite
 
 ---
 
-### Phase 2 — Authentication (F-09, F-10, F-11, F-12)
+### ~~Phase 2 — Authentication (F-09, F-10, F-11, F-12)~~ ✅ DONE
 
 **Goal:** Splash routing + login + password reset round-trip + global AuthCubit handles role.
 

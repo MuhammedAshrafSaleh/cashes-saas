@@ -15,7 +15,10 @@ import 'package:cashes/core/router/app_routes.dart';
 import 'package:cashes/core/theme/app_theme.dart';
 import 'package:cashes/core/theme/theme_cubit.dart';
 import 'package:cashes/core/theme/theme_state.dart';
+import 'package:cashes/core/widgets/app_snackbar.dart';
 import 'package:cashes/core/widgets/offline_banner.dart';
+import 'package:cashes/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:cashes/features/auth/presentation/cubit/auth_state.dart';
 
 class CashesApp extends StatefulWidget {
   const CashesApp({super.key});
@@ -53,6 +56,7 @@ class _CashesAppState extends State<CashesApp> {
       providers: [
         BlocProvider.value(value: sl<ThemeCubit>()),
         BlocProvider.value(value: sl<LocaleCubit>()),
+        BlocProvider.value(value: sl<AuthCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (_, themeState) {
@@ -77,10 +81,29 @@ class _CashesAppState extends State<CashesApp> {
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 routerConfig: _router,
-                builder: (context, child) => OfflineBanner(
-                  networkInfo: sl<NetworkInfo>(),
-                  child: child ?? const SizedBox.shrink(),
-                ),
+                builder: (context, child) {
+                  return BlocListener<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      if (state is AuthDeleted) {
+                        AppSnackbar.error(
+                          context,
+                          AppLocalizations.of(context)!.snackbarAccountDeleted,
+                        );
+                        _router.go(AppRoutes.login);
+                      } else if (state is AuthSessionExpired) {
+                        AppSnackbar.warning(
+                          context,
+                          AppLocalizations.of(context)!.snackbarSessionExpired,
+                        );
+                        _router.go(AppRoutes.login);
+                      }
+                    },
+                    child: OfflineBanner(
+                      networkInfo: sl<NetworkInfo>(),
+                      child: child ?? const SizedBox.shrink(),
+                    ),
+                  );
+                },
               );
             },
           );

@@ -1,7 +1,8 @@
 // lib/core/router/role_redirect.dart
+import 'package:cashes/core/constants/user_role.dart';
 import 'package:cashes/core/router/app_routes.dart';
 
-enum UserRole { owner, admin, user }
+export 'package:cashes/core/constants/user_role.dart';
 
 String homeRouteForRole(UserRole role) {
   switch (role) {

@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cashes/core/router/app_routes.dart';
+import 'package:cashes/features/auth/presentation/screens/email_sent_screen.dart';
+import 'package:cashes/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:cashes/features/auth/presentation/screens/login_screen.dart';
+import 'package:cashes/features/auth/presentation/screens/splash_screen.dart';
 
 class _PlaceholderScreen extends StatelessWidget {
   const _PlaceholderScreen(this.title);
@@ -22,19 +26,19 @@ GoRouter buildAppRouter() {
     routes: [
       GoRoute(
         path: AppRoutes.splash,
-        builder: (_, s) => const _PlaceholderScreen('Splash'),
+        builder: (_, _) => const SplashScreen(),
       ),
       GoRoute(
         path: AppRoutes.login,
-        builder: (_, s) => const _PlaceholderScreen('Login'),
+        builder: (_, _) => const LoginScreen(),
       ),
       GoRoute(
         path: AppRoutes.forgotPassword,
-        builder: (_, s) => const _PlaceholderScreen('Forgot Password'),
+        builder: (_, _) => const ForgotPasswordScreen(),
       ),
       GoRoute(
         path: AppRoutes.emailSent,
-        builder: (_, s) => const _PlaceholderScreen('Email Sent'),
+        builder: (_, _) => const EmailSentScreen(),
       ),
 
       // Owner
